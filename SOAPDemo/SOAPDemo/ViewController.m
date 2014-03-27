@@ -17,7 +17,7 @@
 @property (nonatomic, strong) IBOutlet UITextView* textView;
 
 @property (nonatomic, strong) NSURLConnection* connection;
-
+@property (nonatomic, strong) ServiceClient* client;
 @end
 
 @implementation ViewController
@@ -46,6 +46,8 @@
     if (psw.length > 0) {
         _pswTextField.text = psw;
     }
+    
+    _client = [[ServiceClient alloc] init];
 }
 
 - (void)didReceiveMemoryWarning
@@ -84,55 +86,24 @@
     
     NSString* userName = _userNameTextField.text;
     NSString* psw = _pswTextField.text;
-    NSString* pswMD5 = [self md5:psw];
     
-    static ServiceClient* client = nil;
-    if (client == nil) {
-        client = [[ServiceClient alloc] init];
+    if (userName.length == 0 || psw.length == 0) {
+        _textView.text = @"请输入登陆信息";
+        return;
     }
-    NSString* result = [client userLogin:userName andPswMD5:pswMD5];
-    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, result);
-    return;
     
+    NSString* pswMD5 = [self md5:psw];
     //记住密码
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:userName forKey:@"UserName"];
     [userDefaults setObject:psw forKey:@"Password"];
     [userDefaults synchronize];
     
-    //构造请求
-    NSMutableString* bodyString = [NSMutableString stringWithString:@"<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">"];
-    [bodyString appendString:@"<s:Body><UserLogin xmlns=\"http://tempuri.org/\">"];
-    [bodyString appendFormat:@"<strUserName>%@</strUserName>", userName];
-    [bodyString appendFormat:@"<strPassWordMd5>%@</strPassWordMd5>", pswMD5];
-    [bodyString appendString:@"</UserLogin></s:Body></s:Envelope>"];
-    NSData* bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
-   
-    NSString* serverUrlString = @"http://wcf.scaucs.net/mainservice.svc";
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:serverUrlString]];
-    [request addValue:@"\"http://tempuri.org/IMainService/UserLogin\"" forHTTPHeaderField:@"SOAPAction"];
-    [request setValue:@"text/xml; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:bodyData];
-    [request setValue:[NSString stringWithFormat:@"%d", [bodyData length]] forHTTPHeaderField:@"Content-Length"];
-    
-    NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    _connection = connection;
-
+    NSString* result = [_client userLogin:userName andPswMD5:pswMD5];
+    _textView.text = result;
+    NSLog(@"%s %d", __FUNCTION__, __LINE__);
 }
 
 
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    NSString* str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    _textView.text = str;
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, error);
-    NSString* errorMsg = [NSString stringWithFormat:@"错误：%@", error];
-    _textView.text = errorMsg;
-}
 
 @end
