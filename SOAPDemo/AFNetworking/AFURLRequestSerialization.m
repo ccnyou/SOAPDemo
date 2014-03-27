@@ -157,6 +157,7 @@ NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
                     stringEncoding:(NSStringEncoding)encoding;
 
 - (NSMutableURLRequest *)requestByFinalizingMultipartFormData;
+- (NSMutableURLRequest *)requestByFinalizingMultipartFormData2;
 @end
 
 #pragma mark -
@@ -307,6 +308,25 @@ NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
 
     return [formData requestByFinalizingMultipartFormData];
 }
+
+- (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method
+                                              URLString:(NSString *)URLString
+                              constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
+{
+    NSParameterAssert(method);
+    NSParameterAssert(![method isEqualToString:@"GET"] && ![method isEqualToString:@"HEAD"]);
+    
+    NSMutableURLRequest *request = [self requestWithMethod:method URLString:URLString parameters:nil];
+    
+    __block AFStreamingMultipartFormData *formData = [[AFStreamingMultipartFormData alloc] initWithURLRequest:request stringEncoding:NSUTF8StringEncoding];
+   
+    if (block) {
+        block(formData);
+    }
+    
+    return [formData requestByFinalizingMultipartFormData2];
+}
+
 
 #pragma mark - AFURLRequestSerialization
 
@@ -616,6 +636,21 @@ NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
     [self.request setValue:[NSString stringWithFormat:@"%llu", [self.bodyStream contentLength]] forHTTPHeaderField:@"Content-Length"];
     [self.request setHTTPBodyStream:self.bodyStream];
 
+    return self.request;
+}
+
+- (NSMutableURLRequest *)requestByFinalizingMultipartFormData2 {
+    if ([self.bodyStream isEmpty]) {
+        return self.request;
+    }
+    
+    // Reset the initial and final boundaries to ensure correct Content-Length
+    [self.bodyStream setInitialAndFinalBoundaries];
+    
+    //[self.request setValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", kAFMultipartFormBoundary] forHTTPHeaderField:@"Content-Type"];
+    //[self.request setValue:[NSString stringWithFormat:@"%llu", [self.bodyStream contentLength]] forHTTPHeaderField:@"Content-Length"];
+    [self.request setHTTPBodyStream:self.bodyStream];
+    
     return self.request;
 }
 

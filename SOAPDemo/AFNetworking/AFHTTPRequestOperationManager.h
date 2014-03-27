@@ -245,6 +245,12 @@
                          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 
+
+- (AFHTTPRequestOperation *)POST:(NSString *)URLString
+       constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
+                         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+
 /**
  Creates and runs an `AFHTTPRequestOperation` with a `PUT` request.
 
