@@ -85,11 +85,13 @@
     NSString* psw = _pswTextField.text;
     NSString* pswMD5 = [self md5:psw];
     
+    //记住密码
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:userName forKey:@"UserName"];
     [userDefaults setObject:psw forKey:@"Password"];
     [userDefaults synchronize];
     
+    //构造请求
     NSMutableString* bodyString = [NSMutableString stringWithString:@"<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">"];
     [bodyString appendString:@"<s:Body><UserLogin xmlns=\"http://tempuri.org/\">"];
     [bodyString appendFormat:@"<strUserName>%@</strUserName>", userName];
