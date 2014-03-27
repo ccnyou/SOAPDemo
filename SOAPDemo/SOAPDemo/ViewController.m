@@ -24,8 +24,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    //密码输入
     _pswTextField.secureTextEntry = YES;
+    
+    //来个圆角
+    _textView.layer.borderColor = [UIColor grayColor].CGColor;
+    _textView.layer.borderWidth = 1.0f;
+    _textView.layer.cornerRadius = 5.0;
+    //只读
+    _textView.editable = NO;
     
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     NSString* userName = [userDefaults objectForKey:@"UserName"];
@@ -62,11 +69,18 @@
     return result;
 }
 
+#pragma mark - Touch
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
 
 #pragma mark - Action
 
 - (IBAction)loginClick:(id)sender
 {
+    [self.view endEditing:YES];
+    
     NSString* userName = _userNameTextField.text;
     NSString* psw = _pswTextField.text;
     NSString* pswMD5 = [self md5:psw];
@@ -101,8 +115,6 @@
 {
     NSString* str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     _textView.text = str;
-    
-
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
