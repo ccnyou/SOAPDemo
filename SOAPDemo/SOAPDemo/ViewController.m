@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "ServiceClient.h"
 #import <CommonCrypto/CommonDigest.h>
 
 @interface ViewController () <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
@@ -84,6 +85,14 @@
     NSString* userName = _userNameTextField.text;
     NSString* psw = _pswTextField.text;
     NSString* pswMD5 = [self md5:psw];
+    
+    static ServiceClient* client = nil;
+    if (client == nil) {
+        client = [[ServiceClient alloc] init];
+    }
+    NSString* result = [client userLogin:userName andPswMD5:pswMD5];
+    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, result);
+    return;
     
     //记住密码
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];

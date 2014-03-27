@@ -27,6 +27,9 @@
 		B25AFA1518E20B660005E7D5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B25AFA1418E20B660005E7D5 /* SystemConfiguration.framework */; };
 		B25AFA1718E20B8B0005E7D5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B25AFA1618E20B8B0005E7D5 /* MobileCoreServices.framework */; };
 		B25AFA1918E20B960005E7D5 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B25AFA1818E20B960005E7D5 /* MapKit.framework */; };
+		B25AFA2118E4B20B0005E7D5 /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = B25AFA2018E4B20B0005E7D5 /* GDataXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		B25AFA2418E4B2300005E7D5 /* ServiceClient.m in Sources */ = {isa = PBXBuildFile; fileRef = B25AFA2318E4B2300005E7D5 /* ServiceClient.m */; };
+		B25AFA2618E4B2540005E7D5 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B25AFA2518E4B2540005E7D5 /* libxml2.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +68,11 @@
 		B25AFA1418E20B660005E7D5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B25AFA1618E20B8B0005E7D5 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		B25AFA1818E20B960005E7D5 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		B25AFA1F18E4B20B0005E7D5 /* GDataXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDataXMLNode.h; sourceTree = "<group>"; };
+		B25AFA2018E4B20B0005E7D5 /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDataXMLNode.m; sourceTree = "<group>"; };
+		B25AFA2218E4B2300005E7D5 /* ServiceClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceClient.h; path = Classes/ServiceClient.h; sourceTree = "<group>"; };
+		B25AFA2318E4B2300005E7D5 /* ServiceClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceClient.m; path = Classes/ServiceClient.m; sourceTree = "<group>"; };
+		B25AFA2518E4B2540005E7D5 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B25AFA2618E4B2540005E7D5 /* libxml2.dylib in Frameworks */,
 				B25AFA0F18E20B560005E7D5 /* Security.framework in Frameworks */,
 				B25AF9C018E205DD0005E7D5 /* UIKit.framework in Frameworks */,
 				B25AFA1318E20B600005E7D5 /* QuartzCore.framework in Frameworks */,
@@ -100,6 +109,7 @@
 		B25AF9AF18E205DD0005E7D5 = {
 			isa = PBXGroup;
 			children = (
+				B25AFA1A18E4A1C30005E7D5 /* Classes */,
 				B25AF9F018E206F60005E7D5 /* Third */,
 				B25AF9C118E205DD0005E7D5 /* SOAPDemo */,
 				B25AF9E018E205DD0005E7D5 /* SOAPDemoTests */,
@@ -120,6 +130,7 @@
 		B25AF9BA18E205DD0005E7D5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B25AFA2518E4B2540005E7D5 /* libxml2.dylib */,
 				B25AFA1818E20B960005E7D5 /* MapKit.framework */,
 				B25AFA1618E20B8B0005E7D5 /* MobileCoreServices.framework */,
 				B25AFA1418E20B660005E7D5 /* SystemConfiguration.framework */,
@@ -180,8 +191,27 @@
 		B25AF9F018E206F60005E7D5 /* Third */ = {
 			isa = PBXGroup;
 			children = (
+				B25AFA1E18E4B20B0005E7D5 /* GDataXMLNode */,
 			);
 			name = Third;
+			sourceTree = "<group>";
+		};
+		B25AFA1A18E4A1C30005E7D5 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				B25AFA2218E4B2300005E7D5 /* ServiceClient.h */,
+				B25AFA2318E4B2300005E7D5 /* ServiceClient.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		B25AFA1E18E4B20B0005E7D5 /* GDataXMLNode */ = {
+			isa = PBXGroup;
+			children = (
+				B25AFA1F18E4B20B0005E7D5 /* GDataXMLNode.h */,
+				B25AFA2018E4B20B0005E7D5 /* GDataXMLNode.m */,
+			);
+			path = GDataXMLNode;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,6 +313,8 @@
 			files = (
 				B25AF9D218E205DD0005E7D5 /* ViewController.m in Sources */,
 				B25AF9CC18E205DD0005E7D5 /* AppDelegate.m in Sources */,
+				B25AFA2118E4B20B0005E7D5 /* GDataXMLNode.m in Sources */,
+				B25AFA2418E4B2300005E7D5 /* ServiceClient.m in Sources */,
 				B25AF9C818E205DD0005E7D5 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -366,6 +398,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/include/libxml2,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -399,6 +436,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/include/libxml2,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
