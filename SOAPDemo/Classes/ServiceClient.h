@@ -11,5 +11,6 @@
 @interface ServiceClient : NSObject
 
 - (NSString *)userLogin:(NSString *)userName andPswMD5:(NSString *)pswMD5;
+- (NSArray *)getMyCourseDetail:(NSString *)userName andSession:(NSString *)session;
 
 @end

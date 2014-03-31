@@ -8,7 +8,11 @@
 
 #import "AppDelegate.h"
 
+#if TARGET_IPHONE_SIMULATOR
+#define LOG_TO_FILE 0
+#else
 #define LOG_TO_FILE 1
+#endif
 
 @implementation AppDelegate
 

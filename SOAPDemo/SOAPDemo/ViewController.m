@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "ServiceClient.h"
 #import <CommonCrypto/CommonDigest.h>
+#import "GDataXMLNode.h"
 
 @interface ViewController () <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
@@ -22,8 +23,47 @@
 
 @implementation ViewController
 
+- (void)test
+{
+    //NSString* xml = [NSString stringWithContentsOfFile:@"/Users/ccnyou/Desktop/data.txt" encoding:NSUTF8StringEncoding error:nil];
+    NSData* xmlData = [[NSData alloc] initWithContentsOfFile:@"/Users/ccnyou/Desktop/data.txt"];
+    
+    GDataXMLDocument* doc = [[GDataXMLDocument alloc] initWithData:xmlData options:0 error:nil];
+    GDataXMLElement* rootElement = [doc rootElement];
+    GDataXMLNode* node = [rootElement childAtIndex:0];
+    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, [node name]);
+    
+    node = [node childAtIndex:0];
+    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, [node name]);
+    
+    node = [node childAtIndex:0];
+    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, [node name]);
+    
+
+    NSMutableArray* results = [[NSMutableArray alloc] init];
+    NSArray* array = [node children];
+    for (GDataXMLElement* objNode in array) {
+        NSLog(@"%s %d %@", __FUNCTION__, __LINE__, [objNode name]);
+        
+        NSMutableArray* strings = [[NSMutableArray alloc] initWithCapacity:5];
+        NSArray* elems = [objNode children];
+        for (GDataXMLElement* elem in elems) {
+            NSLog(@"%s %d %@", __FUNCTION__, __LINE__, [elem stringValue]);
+            [strings addObject:[elem stringValue]];
+        }
+        
+        if ([strings count] > 0) {
+            [results addObject:strings];
+        }
+    }
+    
+
+}
+
 - (void)viewDidLoad
 {
+    //[self test];
+    
     [super viewDidLoad];
     //密码输入
     _pswTextField.secureTextEntry = YES;
@@ -102,6 +142,13 @@
     NSString* result = [_client userLogin:userName andPswMD5:pswMD5];
     _textView.text = result;
     NSLog(@"%s %d", __FUNCTION__, __LINE__);
+    
+    NSArray* arrays = [_client getMyCourseDetail:userName andSession:result];
+    for (NSArray* array in arrays) {
+        for (NSString* str in array) {
+            NSLog(@"%s %d %@", __FUNCTION__, __LINE__, str);
+        }
+    }
 }
 
 
