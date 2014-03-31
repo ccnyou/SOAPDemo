@@ -20,11 +20,3 @@ Tests/Pods
 Tests/AFNetworking Tests.xcodeproj/xcshareddata/xcschemes/
 数据包/通讯.txt
 数据包/通讯2.txt
-
-SOAPDemo/SOAPDemo.xcodeproj/project.xcworkspace/xcuserdata/ccnyou.xcuserdatad/UserInterfaceState.xcuserstate
-
-*.xcuserstate
-
-*.xcbkptlist
-
-*.xcbkptlist
