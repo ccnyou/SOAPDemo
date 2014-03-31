@@ -24,3 +24,7 @@ Tests/AFNetworking Tests.xcodeproj/xcshareddata/xcschemes/
 SOAPDemo/SOAPDemo.xcodeproj/project.xcworkspace/xcuserdata/ccnyou.xcuserdatad/UserInterfaceState.xcuserstate
 
 *.xcuserstate
+
+*.xcbkptlist
+
+*.xcbkptlist

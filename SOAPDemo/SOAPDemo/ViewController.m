@@ -141,8 +141,9 @@
     
     NSString* result = [_client userLogin:userName andPswMD5:pswMD5];
     _textView.text = result;
-    NSLog(@"%s %d", __FUNCTION__, __LINE__);
+    //NSLog(@"%s %d", __FUNCTION__, __LINE__);
     
+    //测试获取课程以及通知
     NSArray* arrays = [_client getMyCourseDetail:userName andSession:result];
     for (NSArray* array in arrays) {
         for (NSString* str in array) {
