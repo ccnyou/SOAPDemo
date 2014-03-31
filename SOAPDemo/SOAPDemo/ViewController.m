@@ -139,12 +139,12 @@
     [userDefaults setObject:psw forKey:@"Password"];
     [userDefaults synchronize];
     
-    NSString* result = [_client userLogin:userName andPswMD5:pswMD5];
-    _textView.text = result;
+    NSString* session = [_client userLogin:userName andPswMD5:pswMD5];
+    _textView.text = session;
     //NSLog(@"%s %d", __FUNCTION__, __LINE__);
     
     //测试获取课程以及通知
-    NSArray* arrays = [_client getMyCourseDetail:userName andSession:result];
+    NSArray* arrays = [_client getMyCourseDetail:userName andSession:session];
     for (NSArray* array in arrays) {
         for (NSString* str in array) {
             NSLog(@"%s %d %@", __FUNCTION__, __LINE__, str);

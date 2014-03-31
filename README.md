@@ -19,9 +19,23 @@ iOS 7.0
 
 ```objective-c
 
+//获取登陆session
 ServiceClient client = [[ServiceClient alloc] init];
 NSString* session = [client userLogin:userName andPswMD5:pswMD5];
 NSLog(@"%s %d session = %@", __FUNCTION__, __LINE__, session);
+
+```
+
+
+```objective-c
+
+//获取课程以及通知
+NSArray* arrays = [_client getMyCourseDetail:userName andSession:session];
+for (NSArray* array in arrays) {
+    for (NSString* str in array) {
+        NSLog(@"%s %d %@", __FUNCTION__, __LINE__, str);
+    }
+}
 
 ```
 
