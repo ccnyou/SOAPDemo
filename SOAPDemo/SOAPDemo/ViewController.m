@@ -25,44 +25,19 @@
 
 - (void)test
 {
-    //NSString* xml = [NSString stringWithContentsOfFile:@"/Users/ccnyou/Desktop/data.txt" encoding:NSUTF8StringEncoding error:nil];
-    NSData* xmlData = [[NSData alloc] initWithContentsOfFile:@"/Users/ccnyou/Desktop/data.txt"];
-    
-    GDataXMLDocument* doc = [[GDataXMLDocument alloc] initWithData:xmlData options:0 error:nil];
-    GDataXMLElement* rootElement = [doc rootElement];
-    GDataXMLNode* node = [rootElement childAtIndex:0];
-    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, [node name]);
-    
-    node = [node childAtIndex:0];
-    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, [node name]);
-    
-    node = [node childAtIndex:0];
-    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, [node name]);
-    
-
-    NSMutableArray* results = [[NSMutableArray alloc] init];
-    NSArray* array = [node children];
-    for (GDataXMLElement* objNode in array) {
-        NSLog(@"%s %d %@", __FUNCTION__, __LINE__, [objNode name]);
-        
-        NSMutableArray* strings = [[NSMutableArray alloc] initWithCapacity:5];
-        NSArray* elems = [objNode children];
-        for (GDataXMLElement* elem in elems) {
-            NSLog(@"%s %d %@", __FUNCTION__, __LINE__, [elem stringValue]);
-            [strings addObject:[elem stringValue]];
-        }
-        
-        if ([strings count] > 0) {
-            [results addObject:strings];
-        }
-    }
-    
-
+    NSString* md5Psw = [self md5:@"223669"];
+    NSDictionary* params = @{
+                             @"strUserName" : @"201131000602",
+                             @"strPassWordMd5" : md5Psw
+                             };
+    NSData* xmlData = [ServiceClient commonCall:@"UserLogin" andParams:params];
+    NSString* xmlString = [[NSString alloc] initWithData:xmlData encoding:NSUTF8StringEncoding];
+    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, xmlString);
 }
 
 - (void)viewDidLoad
 {
-    //[self test];
+    [self test];
     
     [super viewDidLoad];
     //密码输入
@@ -141,7 +116,7 @@
     
     NSString* session = [_client userLogin:userName andPswMD5:pswMD5];
     _textView.text = session;
-    //NSLog(@"%s %d", __FUNCTION__, __LINE__);
+
     
     //测试获取课程以及通知
     NSArray* arrays = [_client getMyCourseDetail:userName andSession:session];
@@ -150,6 +125,14 @@
             NSLog(@"%s %d %@", __FUNCTION__, __LINE__, str);
         }
     }
+    
+    NSDictionary* params = @{
+                             @"strUserNumber" : @"201131000602",
+                             @"strSession" : session
+                             };
+    NSData* xmlData = [ServiceClient commonCall:@"GetMyHomeWorkDetail" andParams:params];
+    NSString* xmlString = [[NSString alloc] initWithData:xmlData encoding:NSUTF8StringEncoding];
+    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, xmlString);
 }
 
 

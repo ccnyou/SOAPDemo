@@ -132,4 +132,36 @@
     return resultArray;
 }
 
++ (NSData *)commonCall:(NSString *)methodName andParams:(NSDictionary *)params
+{
+    NSArray* keys = [params allKeys];
+
+    //构造请求
+    NSMutableString* bodyString = [NSMutableString stringWithString:@"<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">"];
+    
+    [bodyString appendFormat:@"<s:Body><%@ xmlns=\"http://tempuri.org/\">", methodName];
+    for (NSString* key in keys) {
+        NSString* value = [params valueForKey:key];
+        [bodyString appendFormat:@"<%@>%@</%@>", key, value, key];
+    }
+    [bodyString appendFormat:@"</%@></s:Body></s:Envelope>", methodName];
+    NSData* bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    
+    NSString* serverUrlString = SERVER_URL;
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:serverUrlString]];
+    NSString* soapAction = [NSString stringWithFormat:@"\"http://tempuri.org/IMainService/%@\"", methodName];
+    [request addValue:soapAction forHTTPHeaderField:@"SOAPAction"];
+    [request setValue:@"text/xml; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:bodyData];
+    [request setValue:[NSString stringWithFormat:@"%d", [bodyData length]] forHTTPHeaderField:@"Content-Length"];
+    
+    NSError* error = nil;
+    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+    NSAssert(error == nil, @"err = %@", error);
+
+    return data;
+}
+
 @end

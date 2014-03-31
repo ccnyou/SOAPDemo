@@ -13,4 +13,6 @@
 - (NSString *)userLogin:(NSString *)userName andPswMD5:(NSString *)pswMD5;
 - (NSArray *)getMyCourseDetail:(NSString *)userName andSession:(NSString *)session;
 
++ (NSData *)commonCall:(NSString *)methodName andParams:(NSDictionary *)params;
+
 @end
