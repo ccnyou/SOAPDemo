@@ -3,6 +3,23 @@
 
 ## How To Get Started
 
+* 将 Classes 目录拷贝到你的工程目录下，并命名为 ServiceClient。
+
+* 将 AFNetworking, GDataXMLNode 等目录拷贝到你工程目录下。
+
+* 在你的工程里面新建名为 Third 的 Group, 将上述三项拉进去。
+
+* 为你的工程添加以下 Framework：
+  - libxml2.dylib
+  
+* 为你的工程添加头文件搜索路径(Header Search Paths)：
+  - /usr/include/libxml2
+  
+* 为 GDataXMLNode.m 添加 -fno-objc-arc flags
+  - [Build Phases] -> Compile Sources
+
+* 在需要用到的地方 #import "ServiceClient.h" 即可。
+
 等待整理，有问题可以跟我联系: ccnyou@qq.com
 
 
