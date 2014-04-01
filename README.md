@@ -8,13 +8,17 @@
 
 ### What's New
 
+2014-4-1  实现了同步 commonCall 接口
+
 2014-4-1  实现了同步 getMyCourseDetail 接口
+
 2014-3-29 实现了同步 userLogin 接口
 
 ## Requirements
 
 Xcode 5.0 以上
-iOS 7.0
+
+iOS SDK 7.0
 
 ## Usage
 
