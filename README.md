@@ -40,6 +40,18 @@ for (NSArray* array in arrays) {
 
 ```
 
+```objective-c
+
+//调用任意接口
+NSDictionary* params = @{
+                         @"strUserNumber" : @"201131000602",
+                         @"strSession" : session
+                         };
+NSData* xmlData = [ServiceClient commonCall:@"GetMyHomeWorkDetail" andParams:params];
+NSString* xmlString = [[NSString alloc] initWithData:xmlData encoding:NSUTF8StringEncoding];
+NSLog(@"%s %d %@", __FUNCTION__, __LINE__, xmlString);
+
+```
 ## Contact
 
 新浪微博 ([@陈聪宁](http://weibo.com/ccnyou))
