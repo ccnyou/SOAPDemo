@@ -11,7 +11,7 @@
 #import <CommonCrypto/CommonDigest.h>
 #import "GDataXMLNode.h"
 
-@interface ViewController () <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
+@interface ViewController () <NSURLConnectionDelegate, NSURLConnectionDataDelegate, ServiceClientDelegate>
 
 @property (nonatomic, strong) IBOutlet UITextField* userNameTextField;
 @property (nonatomic, strong) IBOutlet UITextField* pswTextField;
@@ -23,16 +23,10 @@
 
 @implementation ViewController
 
+
 - (void)test
 {
-    NSString* md5Psw = [self md5:@"223669"];
-    NSDictionary* params = @{
-                             @"strUserName" : @"201131000602",
-                             @"strPassWordMd5" : md5Psw
-                             };
-    NSData* xmlData = [ServiceClient commonCall:@"UserLogin" andParams:params];
-    NSString* xmlString = [[NSString alloc] initWithData:xmlData encoding:NSUTF8StringEncoding];
-    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, xmlString);
+
 }
 
 - (void)viewDidLoad

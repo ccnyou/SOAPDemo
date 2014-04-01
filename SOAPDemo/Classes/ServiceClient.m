@@ -164,4 +164,55 @@
     return data;
 }
 
+- (void)userLoginAsync:(NSString *)userName andPswMD5:(NSString *)pswMD5
+{
+    //构造请求
+    NSMutableString* bodyString = [NSMutableString stringWithString:@"<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">"];
+    [bodyString appendString:@"<s:Body><UserLogin xmlns=\"http://tempuri.org/\">"];
+    [bodyString appendFormat:@"<strUserName>%@</strUserName>", userName];
+    [bodyString appendFormat:@"<strPassWordMd5>%@</strPassWordMd5>", pswMD5];
+    [bodyString appendString:@"</UserLogin></s:Body></s:Envelope>"];
+    NSData* bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSString* serverUrlString = SERVER_URL;
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:serverUrlString]];
+    [request addValue:@"\"http://tempuri.org/IMainService/UserLogin\"" forHTTPHeaderField:@"SOAPAction"];
+    [request setValue:@"text/xml; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:bodyData];
+    [request setValue:[NSString stringWithFormat:@"%d", [bodyData length]] forHTTPHeaderField:@"Content-Length"];
+    
+    
+    AFHTTPRequestOperation* operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    operation.responseSerializer = [AFHTTPResponseSerializer serializer];
+    
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if ([_delegate respondsToSelector:@selector(serviceClient:loginCompletedWithResult:)]) {
+            NSString* resultString = nil;
+            NSError* error = nil;
+            NSData* data = responseObject;
+            NSAssert(error == nil, @"err = %@", error);
+            
+            if (data) {
+                GDataXMLDocument* doc = [[GDataXMLDocument alloc] initWithData:data options:0 error:nil];
+                GDataXMLElement* rootElement = [doc rootElement];
+                GDataXMLNode* node = [rootElement childAtIndex:0];
+                node = [node childAtIndex:0];
+                node = [node childAtIndex:0];
+                NSAssert([[node name] isEqualToString:@"UserLoginResult"], @"貌似出错了，返回数据不是 UserLoginResult");
+                
+                resultString = [node stringValue];
+            }
+            
+            [_delegate serviceClient:self loginCompletedWithResult:resultString];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if ([_delegate respondsToSelector:@selector(serviceClient:loginFailedWithError:)]) {
+            [_delegate serviceClient:self loginFailedWithError:error];
+        }
+    }];
+    
+    [operation start];
+}
+
 @end
