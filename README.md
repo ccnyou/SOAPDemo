@@ -20,7 +20,7 @@
 
 * 在需要用到的地方 #import "ServiceClient.h" 即可。
 
-等待整理，有问题可以跟我联系: ccnyou@qq.com
+有问题可以跟我联系: ccnyou@qq.com
 
 
 ### What's New
