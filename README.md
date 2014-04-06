@@ -16,7 +16,7 @@
   - /usr/include/libxml2
   
 * 为 GDataXMLNode.m 添加 -fno-objc-arc flags
-  - [Build Phases] -> Compile Sources
+  - [Build Phases] -> [Compile Sources]
 
 * 在需要用到的地方 #import "ServiceClient.h" 即可。
 
