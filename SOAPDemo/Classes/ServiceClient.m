@@ -31,16 +31,14 @@
 @implementation ServiceClient
 
 
-
 - (id)init
 {
-    if ([super init]) {
-//        _connDict = [[NSMutableDictionary alloc] init];
-//        _condition = [[NSCondition alloc] init];
-        return self;
+    self = [super init];
+    if (self) {
+
     }
     
-    return nil;
+    return self;
 }
 
 
